@@ -1,21 +1,22 @@
-## Author: Nikhil Dandamudi
-## Created: 2019-08-12
+% Author: Nikhil Dandamudi
+% Created: 2019-08-12
 
 function InternalResistingMoment = BMD ( MomentDistributionMatrix , SpanMatrix ,Input)
   
-  InternalResistingMoment=sum( MomentDistributionMatrix );
+  InternalResistingMoment = sum( MomentDistributionMatrix );
   InternalResistingMoment;
+  temp = size(Input);
   
   for i=1:(length(InternalResistingMoment)-length(SpanMatrix)) ,
     
     InternalResistingMoment(2*i)=[];
     
-   end
+  end
    
    PlotMatrix=SpanMatrix;
    j=1;
-%% Possibility Of Error
-   for i=1:size(Input)(1) ,
+% Possibility Of Error
+   for i=1:temp(1) ,
      
      if( Input(i,2)==1 && (Input(i,6)-Input(i,5))==Input(i,8)) , %%UniformDistributedLoad
     
@@ -30,9 +31,11 @@ function InternalResistingMoment = BMD ( MomentDistributionMatrix , SpanMatrix ,
        ExternalLoadMomentMatrix(1,j+1)=0;
        PlotMatrix=[PlotMatrix,SpanMatrix(i)+Input(i,4)];
        j=j+2;
-     endif
+       
+     end
      
-    end 
+   end
+    
   PlotMatrix=sort(PlotMatrix);
   ExternalLoadMomentMatrix=[0,ExternalLoadMomentMatrix];
   %InternalResistingMoment
@@ -44,7 +47,7 @@ function InternalResistingMoment = BMD ( MomentDistributionMatrix , SpanMatrix ,
   j=1;
   %PlotMatrix
   %ExternalLoadMomentMatrix
-  for i=1:size(Input)(1) ,
+  for i=1:temp(1) ,
     
     if (Input(i,3)~=0), %% Variation Should Be Parabolic For The Given Span
       
@@ -60,7 +63,7 @@ function InternalResistingMoment = BMD ( MomentDistributionMatrix , SpanMatrix ,
       hold on;
       j=j+2;
       
-    endif
+    end
     
   end
   
@@ -68,4 +71,4 @@ function InternalResistingMoment = BMD ( MomentDistributionMatrix , SpanMatrix ,
    disp("     X-axis     Y-Axis");
    [PlotMatrix',ExternalLoadMomentMatrix']
 
-endfunction
+end
