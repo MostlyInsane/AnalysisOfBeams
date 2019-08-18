@@ -1,5 +1,5 @@
-## Author: Nikhil Dandamudi
-## Created: 2019-08-09
+% Author: Nikhil Dandamudi
+% Created: 2019-08-09
 
 function retval = AnalysisOfBeams (Input)
  %---------------------------------------------------  
@@ -43,10 +43,13 @@ function retval = AnalysisOfBeams (Input)
   disp("********************************************************************");
   
   SpanMatrix=[0];
+  temp=size(Input);
+  temp1=size(SpanMatrix);
  
-  for i=1:size(Input)(1) ,
-    
-    SpanMatrix=[SpanMatrix , SpanMatrix(size(SpanMatrix)(2))+Input(i,8)];
+  for i=1:temp(1) ,
+      
+    SpanMatrix=[SpanMatrix , SpanMatrix(temp1(2))+Input(i,8)];
+    temp1=size(SpanMatrix);
     
   end
   
@@ -60,4 +63,4 @@ function retval = AnalysisOfBeams (Input)
   
   %---------------------------------------------------
   
-endfunction
+end
