@@ -21,17 +21,37 @@ function FEM = FixedEndMoment (Input)
   
   temp1=size(FEM);
   
-  if (Input(temp(1),2)==2) , %Overhanging Continuous Beam"
+  if (Input(temp(1),2)==2) , %RightOverhanging Continuous Beam"
 
     if(Input(temp(1),3)~=0) ,  %UniformDistributedLoad
-    
-      FEM(temp1(1),1)=-Input(temp(1),1)*Input(temp(1),8);
+                      
+      UDLD=(Input(temp(1),6)-Input(temp(1),5));
+      FEM(temp1(1),1)=-(Input(temp(1),3)*UDLD)*(UDLD/2);
       FEM(temp1(1),2)=0;
       
     else                              %PointLoad
       
-      FEM(temp1(1),1)=-Input(temp(1),1)*Input(temp(1),8);
+      FEM(temp1(1),1)=-Input(temp(1),1)*Input(temp(1),4);
       FEM(temp1(1),2)=0;
+      
+    end
+    
+  end
+  
+  if (Input(temp(1),2)==2) , %LeftOverhanging Continuous Beam"
+
+    if(Input(temp(1),3)~=0) ,  %UniformDistributedLoad
+      
+      UDLD=(Input(1,6)-Input(1,5)); 
+      a=0;
+      b=(Input(1,3)*UDLD)*(UDLD/2);
+      FEM=[a,b ; FEM];
+      
+    else                              %PointLoad
+      
+      a= 0;
+      b=Input(1,1)*(Input(1,8)-Input(1,4));
+      FEM=[a,b ; FEM];
       
     end
     
@@ -40,9 +60,9 @@ function FEM = FixedEndMoment (Input)
  %CORRECTION DUE TO SINKING :
  
   SinkLeftEnd=0;
-  SinkRightEnd=0;
-  E=200000000;
-  I=0.000004;
+  SinkRightEnd=Input(temp(1),9);
+  E=1;
+  I=1;
   
    %FIRST SPAN CORRECTION
    

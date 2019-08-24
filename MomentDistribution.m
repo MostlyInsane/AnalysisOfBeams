@@ -1,7 +1,7 @@
 % Author: Nikhil Dandamudi
 % Created: 2019-08-09
 
-function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMomentMatrix, DistributionFactorMatrix)
+function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMomentMatrix, DistributionFactorMatrix , LeftSupport)
   
   j=1;
   
@@ -21,35 +21,62 @@ function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMom
     
   end
   
-  EndCorrection=[0];
-  %%MomentDistributionMatrix
+  RightEndCorrection=[0];
+  LeftEndCorrection=[0];
+  
+  %MomentDistributionMatrix
   
 %% END CORRECTION (IF ANY) :
 
   temp=size(InputMatrix);
   temp1=size(MomentDistributionMatrix);
   
-  if ((InputMatrix(temp(1),2)==0) && (MomentDistributionMatrix (MomentDistributionMatrix(1,temp1(2))~=0))) ,
+  %RightEndCorrection
+  
+  if (InputMatrix(temp(1),2)==0) ,
 
     Correction=0;
     Correction=MomentDistributionMatrix(1,temp1(2))*-1;
     MomentDistributionMatrix(1,temp1(2))=MomentDistributionMatrix(1,temp1(2)) + Correction;
     MomentDistributionMatrix(1,(temp1(2)-1))=(MomentDistributionMatrix(1,temp1(2)-1) + (Correction/2));
-    EndCorrection=[1];
+    RightEndCorrection=[1];
     
   end
   
-  if (InputMatrix(temp(1),2)==2) , %%Overhanging Continuous Beam
+  if (InputMatrix(temp(1),2)==2) , %%LeftOverhanging Continuous Beam
     
     Correction=0;
     Correction=(MomentDistributionMatrix(1,temp1(2)-2)+MomentDistributionMatrix(1,temp1(2)-1))*-1;
     MomentDistributionMatrix(1,temp1(2)-2)=MomentDistributionMatrix(1,temp1(2)-2) + Correction;
     MomentDistributionMatrix(1,(temp1(2)-3))=(MomentDistributionMatrix(1,temp1(2)-3) + (Correction/2));
-    EndCorrection=[1];
+    RightEndCorrection=[1];
     
   end
   
-  %%MomentDistributionMatrix
+  %LeftEndCorrection:
+  
+   if ( LeftSupport == 0 ) ,
+
+    Correction=0;
+    Correction=MomentDistributionMatrix(1,1)*-1;
+    MomentDistributionMatrix(1,1)=MomentDistributionMatrix(1,1) + Correction;
+    MomentDistributionMatrix(1,2)=(MomentDistributionMatrix(1,2) + (Correction/2));
+    LeftEndCorrection=[1];
+    
+  end
+  
+  if ( LeftSupport == 2) , %%LeftOverhanging Continuous Beam
+    
+    Correction=0;
+    Correction=(MomentDistributionMatrix(1,2)+MomentDistributionMatrix(1,3))*-1;
+    MomentDistributionMatrix(1,3)=MomentDistributionMatrix(1,3) + Correction;
+    MomentDistributionMatrix(1,4)=(MomentDistributionMatrix(1,4) + (Correction/2));
+    LeftEndCorrection=[1];
+    
+  end
+  
+  %MomentDistributionMatrix=MomentDistributionMatrix.*16.67;
+  
     
 %% ITERATIVE PROCESS OF DISTRIBUTION THEORM:
 
@@ -66,14 +93,43 @@ function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMom
      for k=1:NoOfIterations , %% Inputs elements into respective columns for a row
        
        ExternalMoment=(MomentDistributionMatrix(i-1,l+1)+MomentDistributionMatrix(i-1,l+2))*-1;
+       
        %disp("Distributing")
        MomentDistributionMatrix(i,l+1)= DistributionFactorMatrix(l,1)*ExternalMoment;
+       
        %disp("Carry Over To Left :")
-       MomentDistributionMatrix(i+1,l)=MomentDistributionMatrix(i,l+1)/2; 
+       
+       if(LeftEndCorrection==1 && LeftSupport~=2) ,
+
+         if ((k~=1 && temp(1)>2)) ,
+             
+           MomentDistributionMatrix(i+1,l)=MomentDistributionMatrix(i,l+1)/2;
+           
+         elseif (k~=1 && temp(1)<=2) ,
+           
+           MomentDistributionMatrix(i+1,l)=MomentDistributionMatrix(i,l+1)/2;
+           
+         end
+         
+       elseif(LeftEndCorrection==1 && LeftSupport == 2) ,
+       
+         if (k ~= 1) , %%Maybe Not Generalised
+           
+           MomentDistributionMatrix(i+1,l)=MomentDistributionMatrix(i,l+1)/2;
+           
+         end
+               
+       else ,
+        
+         MomentDistributionMatrix(i+1,l)=MomentDistributionMatrix(i,l+1)/2;
+       
+       end ; 
+       
        %disp("Distributing")
        MomentDistributionMatrix(i,l+2)=DistributionFactorMatrix(l+1,1)*ExternalMoment;
+       
        %disp("Carry Over To Right :")
-       if(EndCorrection==1 && InputMatrix(temp(1),2)~=2) ,
+       if(RightEndCorrection==1 && InputMatrix(temp(1),2)~=2) ,
  
          if ((k~=((temp(1)-2)*2)) && ((temp(1)>2))) ,
              
@@ -85,7 +141,7 @@ function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMom
            
          end
          
-       elseif(EndCorrection==1 && InputMatrix(temp(1),2)==2) ,
+       elseif(RightEndCorrection==1 && InputMatrix(temp(1),2)==2) ,
        
          if (k~=(((temp(1)-2)*2)-1)) , %%Maybe Not Generalised
            

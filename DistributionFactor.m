@@ -1,13 +1,13 @@
 % Author: Nikhil Dandamudi
 % Created: 2019-08-08
 
-function DistributionFactorMatrix = DistributionFactor (Input)
+function DistributionFactorMatrix = DistributionFactor (Input , LeftSupport)
   i=1;
   k=1;
   l=1;
   temp=size(Input);
   for j=1:temp(1) ,
-    
+        
     if ( (j < temp(1)) && (Input(j+1,2)~=2)) , % Continuous Support or Support Which Can Offer Moment Except OverHangingBeam
 
       DistributionFactorMatrix(i,1)=(Input(j,7)/Input(j,8));
@@ -32,6 +32,13 @@ function DistributionFactorMatrix = DistributionFactor (Input)
     end
     
   end
+  
+  if ( LeftSupport == 0 ) ,
+      
+    DistributionFactorMatrix(1,1)=(3/4)*(Input(1,7)/Input(1,8));
+    
+  end
+    
   
   while (l<=(length(DistributionFactorMatrix)/2)) ,
     Sum=DistributionFactorMatrix(k,1)+DistributionFactorMatrix(k+1,1);
