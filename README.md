@@ -41,7 +41,32 @@ CORRECTION IS NOT INCLUDED IN THIS FUNCTION, RATHER IT IS INCLUDED IN MomentDist
      Syntax : FixedEndMoment (Input,LeftSupport)
               Input, LeftSupport follow same nomenclature and method given in AnalysisOfBeams.m 
               
+              
+              
+              
+              
+              
                  
               
-*                                     
-         
+*MomentDistribution.m* :  ( Just to know how this function works ) :
+
+The *MomentDistribution.m* just distributes the moments based on the distribution factor and applies end correction for discontinuous
+supports / left overhanging / right overhanging. 
+Note: Seems To be a bit buggy when OverHanging On BOTH SIDES ( i.e "SIMULTANEOUSLY" ), will fix it in the next update.
+
+     Syntax : MomentDistribution (InputMatrix, FixedEndMomentMatrix, DistributionFactorMatrix , LeftSupport , IsPureSway)
+                 where,
+                 InputMatrix : Is InputData From Excel sheet.
+                 FixedEndMomentMatrix : Matrix that is returned from FixedEndMoment.m function.
+                 DistributionFactorMatrix : Matrix that is returned from DistributionFactor.m function.
+                 LeftSupport : Same Nomenclature as used in AnalysisOfBeams.m Function.
+                 IsPureSway : Whether Pure Sway Analysis is used anywhere or not. ( Right now has no Purpose, in further update will 
+                                                                                    remove the manual entry to increase accuracy as
+                                                                                    described in VERY VERY IMPORTANT NOTE )
+                              0= If not used.
+                              1= If Used.
+                              
+                              
+                              
+                              
+                              
