@@ -84,7 +84,7 @@ supported.
                  Input : Is InputData From Excel sheet.
           
                               
-**FactorOfMultiplication.m* :  ( Just to know how this function works and what it does !! ) :** 
+**FactorOfMultiplication.m :  ( Just to know how this function works and what it does !! ) :** 
 
 This Function just corrects the Assumed Moments in PURE SWAY ANALYSIS / GENERAL SWAY ANALYSIS OF PORTAL FRAME.
 
