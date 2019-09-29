@@ -1,6 +1,6 @@
 **DOCUMENTATION OF ANALYSIS OF BEAMS USING MDM : (MATLAB/OCTAVE)**
 
-**Author : *Nikhil Dandamudi* **
+**Author : *Nikhil Dandamudi***
 
 **ANALYSIS OF BEAMS.M ( All there is to know on how to run the program ): // ONLY FUNCTION REQUIRED TO GET THE OUTPUT**
 
