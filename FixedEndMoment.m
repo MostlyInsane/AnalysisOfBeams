@@ -1,7 +1,7 @@
 % Author: Nikhil Dandamudi
 % Created: 2019-08-08
 
-function FEM = FixedEndMoment (Input)
+function FEM = FixedEndMoment (Input,LeftSupport)
   temp=size(Input);
   for i=1:temp(1) , %Due to External Load
     
@@ -38,11 +38,11 @@ function FEM = FixedEndMoment (Input)
     
   end
   
-  if (Input(temp(1),2)==2) , %LeftOverhanging Continuous Beam"
+  if (LeftSupport==2) , %LeftOverhanging Continuous Beam"
 
-    if(Input(temp(1),3)~=0) ,  %UniformDistributedLoad
+    if(Input(1,3)~=0) ,  %UniformDistributedLoad
       
-      UDLD=(Input(1,6)-Input(1,5)); 
+      UDLD=2; 
       a=0;
       b=(Input(1,3)*UDLD)*(UDLD/2);
       FEM=[a,b ; FEM];

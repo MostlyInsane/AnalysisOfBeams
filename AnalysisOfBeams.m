@@ -29,7 +29,7 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
   disp("                           STEP 1:                                   "); 
   disp("********************************************************************");
  
-  disp("Fixed End Moments Are As Follows :");
+  disp("           *Fixed End Moments Are As Follows :");
   
   temp=size(Input);
          %--------------------------------------------------------------------------------------
@@ -76,14 +76,14 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
    
           %--------------------------------------------------------------------------------------
   
-  FixedEndMoment(Input)
+  FixedEndMoment(Input,LeftSupport)
   
   disp("********************************************************************");
   disp("                           STEP 2:                                   "); 
  %--------------------------------------------------- 
   disp("********************************************************************");
   
-  disp("Distribution Factor Are As Follows :");
+  disp("           *Distribution Factor Are As Follows :");
   
   DistributionFactor(Input,LeftSupport)
   
@@ -96,9 +96,9 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
   
   if (TypeOfAnalysis == 0)  
    
-    disp("Iterative Process Of Moment Distribution Is As Follows :");
+    disp("      *Iterative Process Of Moment Distribution Is As Follows :");
   
-    MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input), DistributionFactor(Input,LeftSupport) , LeftSupport )
+    MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input,LeftSupport), DistributionFactor(Input,LeftSupport) , LeftSupport, 0 )
   
     disp("====================================================================");
     sum(MomentDistributionMatrix)
@@ -122,7 +122,7 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
     
     end
   
-    disp("Plotting BENDING MOMENT DIAGRAM :");
+    disp("             *Plotting BENDING MOMENT DIAGRAM :");
     disp("");
   
     BMD( MomentDistributionMatrix , SpanMatrix , Input );
@@ -134,23 +134,23 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
   if (TypeOfAnalysis == -1 || TypeOfAnalysis== 1) % -1= Pure Left Sway Frame Analysis , +1= Pure Right Sway Frame Analysis 
       
       
-      disp("Iterative Process Of Moment Distribution Is As Follows :");
-      disp("Uncorrected MomentDistributionMatrix is ");
+      disp("      *Iterative Process Of Moment Distribution Is As Follows :");
+      disp("            Uncorrected MomentDistributionMatrix is ");
       
-      MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input), DistributionFactor(Input,LeftSupport) , LeftSupport )
+      MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input,LeftSupport), DistributionFactor(Input,LeftSupport) , LeftSupport , 1 )
       
       disp("====================================================================");
       UncorrectedMoment=sum(MomentDistributionMatrix)
       disp("====================================================================");
       
-      disp("")
-      disp("Factor By Which The Assumed Moment To Be Multiplied is :");
+      disp(" ")
+      disp("         *Factor By Which The Assumed Moment To Be Multiplied is :");
       disp("");
       
       Factor = FactorOfMultiplication( MomentDistributionMatrix , Input ) 
       disp("");
 
-      disp("Sum Of Corrected MomentDistributionMatrix is ");
+      disp("             Sum Of Corrected MomentDistributionMatrix is ");
       disp("")
       
       disp("====================================================================");
@@ -166,35 +166,38 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
   if (TypeOfAnalysis == 2) %General Sway Type Frame Analysis
     
     disp("                        STEP A :                                   ");
-    disp("~~~~~~~~~~~Considering NON SWAY TYPE ANALYSIS :~~~~~~~~~~~~~~~~~~~" );
+    disp("        ~~~~Considering NON SWAY TYPE ANALYSIS :~~~~" );
     disp("");
-    disp("Iterative Process Of Moment Distribution Is As Follows :");
+    disp("         *Iterative Process Of Moment Distribution Is As Follows :");
   
-    MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input), DistributionFactor(Input,LeftSupport) , LeftSupport )
+    MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input,LeftSupport), DistributionFactor(Input,LeftSupport) , LeftSupport , 0 )
   
     disp("====================================================================");
-    NonSwayMoment=sum(MomentDistributionMatrix)
+    NonSwayMoment=sum(MomentDistributionMatrix);
+    disp(NonSwayMoment);
     disp("====================================================================");
   
     disp("");
     
     %--------------------------------FINDING SWAY FORCE----------------------------------------------------------
     
-   MomentDistributionMatrix = sum ( MomentDistributionMatrix)
+   MomentDistributionMatrix = sum ( MomentDistributionMatrix);
    temp2=size(MomentDistributionMatrix);
        
    HorizontalForce = (MomentDistributionMatrix(1,1)+ MomentDistributionMatrix(1,2)) / Input(1,8);
    HorizontalForce = [ HorizontalForce , (MomentDistributionMatrix(1,temp2(2)-1)+ MomentDistributionMatrix(1,temp2(2))) / Input(temp(1),8) ];
-   SwayForce=sum(HorizontalForce');
+   SwayForce=sum(HorizontalForce')
    
     %-----------------------------------------------------------------------------------------------------------
     
-    disp("                        STEP B :                                   ")
-    disp("~~~~~~~~~~~Considering PURE SWAY TYPE ANALYSIS :~~~~~~~~~~~~~~~~~~~" );
+    disp("                        STEP B :                                   ");
+    disp("        ~~~~Considering PURE SWAY TYPE ANALYSIS :~~~~" );
+    disp("");
     
     %---------------------------------------Inserting Sway Force  ----------------------------------------------
     
     Input(1,1)=SwayForce;
+    Input(1,4)=Input(1,8);
     Input(1,3)=0;
     
     for i=2:temp
@@ -224,23 +227,25 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
     
     %---------------------------------------------------------------------------------------------------------
     
-    disp("Iterative Process Of Moment Distribution Is As Follows :");
-    disp("Uncorrected MomentDistributionMatrix is ");
+    disp("        *Iterative Process Of Moment Distribution Is As Follows :");
+    disp("              Uncorrected MomentDistributionMatrix is ");
+    disp("");
      
-    MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input), DistributionFactor(Input,LeftSupport) , LeftSupport )
+    MomentDistributionMatrix = MomentDistribution (Input,FixedEndMoment(Input,LeftSupport), DistributionFactor(Input,LeftSupport) , LeftSupport , 1 )
       
     disp("====================================================================");
-    UncorrectedMoment=sum(MomentDistributionMatrix)
+    UncorrectedMoment=sum(MomentDistributionMatrix);
+    disp(UncorrectedMoment);
     disp("====================================================================");
       
     disp("")
-    disp("Factor By Which The Assumed Moment To Be Multiplied is :");
+    disp("*Factor By Which The Assumed Moment To Be Multiplied is :");
     disp("");
       
     Factor = FactorOfMultiplication( MomentDistributionMatrix , Input ) 
     disp("");
 
-    disp("Sum Of Corrected MomentDistributionMatrix is ");
+    disp("Sum Of Corrected MomentDistributionMatrix is (After Multiplication With Factor) ");
     disp("")
       
     disp("====================================================================");
@@ -248,10 +253,12 @@ function retval = AnalysisOfBeams (Input, LeftSupport , TypeOfAnalysis)
     disp("====================================================================");
       
   
-    disp("Total Corrected Moment Acting On The Given GENERAL SWAY TYPE FRAME Is : (NON SWAY MOMENT + PURE SWAY MOMENT ");
+    disp("Total Corrected Moment Acting On The Given GENERAL SWAY TYPE FRAME Is : (NON SWAY MOMENT + PURE SWAY MOMENT) ");
+    disp(" ");
     
-    NonSwayMoment
-    PureSwayMoment
+    disp(NonSwayMoment);
+    disp("+");
+    disp(PureSwayMoment);
     disp("====================================================================")
     GeneralSwayMoment=NonSwayMoment+PureSwayMoment
     disp("====================================================================")

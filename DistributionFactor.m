@@ -48,6 +48,6 @@ function DistributionFactorMatrix = DistributionFactor (Input , LeftSupport)
     l=l+1;
   end
 
-  DistributionFactorMatrix=(round(DistributionFactorMatrix.*100))/100;
+  %DistributionFactorMatrix=(round(DistributionFactorMatrix.*100))/100;
 
 end

@@ -1,7 +1,7 @@
 % Author: Nikhil Dandamudi
 % Created: 2019-08-09
 
-function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMomentMatrix, DistributionFactorMatrix , LeftSupport)
+function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMomentMatrix, DistributionFactorMatrix , LeftSupport , IsPureSway)
   
   j=1;
   
@@ -21,10 +21,19 @@ function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMom
     
   end
   
+  if ( LeftSupport == 2)
+      
+      temp2=size(FixedEndMomentMatrix);
+      temp1=size(MomentDistributionMatrix);
+      MomentDistributionMatrix(1,(temp1(2)+1))=FixedEndMomentMatrix(temp2(1),1);
+      MomentDistributionMatrix(1,temp1(2)+2)=FixedEndMomentMatrix(temp2(1),2);
+  
+  end
+  
   RightEndCorrection=[0];
   LeftEndCorrection=[0];
   
-  %MomentDistributionMatrix
+  MomentDistributionMatrix;
   
 %% END CORRECTION (IF ANY) :
 
@@ -75,7 +84,13 @@ function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMom
     
   end
   
-  %MomentDistributionMatrix=MomentDistributionMatrix.*16.67;
+  if( IsPureSway == 1 )
+    
+    MomentDistributionMatrix=MomentDistributionMatrix.*11.842;
+    
+  end
+  
+  %MomentDistributionMatrix;
   
     
 %% ITERATIVE PROCESS OF DISTRIBUTION THEORM:
@@ -186,7 +201,7 @@ function MomentDistributionMatrix = MomentDistribution (InputMatrix, FixedEndMom
      SumOfAccuracy= sum(abs(MomentDistributionMatrix'));   
      i=i+2;
      
-     %MomentDistributionMatrix=(round(MomentDistributionMatrix.*100))/100;
+     MomentDistributionMatrix=(round(MomentDistributionMatrix.*100))/100;
      
      end
      
