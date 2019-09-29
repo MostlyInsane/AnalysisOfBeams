@@ -1,4 +1,4 @@
-**ANALYSIS OF BEAMS.M* ( All there is to know on how to run the program ): // ONLY FUNCTION REQUIRED TO GET THE OUTPUT
+**ANALYSIS OF BEAMS.M ( All there is to know on how to run the program ): // ONLY FUNCTION REQUIRED TO GET THE OUTPUT**
 
 The AnalysisOfBeams function is just something like a CLUI of the final output, it does nothing more than call the appropriate function
 
