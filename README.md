@@ -103,4 +103,7 @@ This Function just corrects the Assumed Moments in PURE SWAY ANALYSIS / GENERAL 
                  MomentDistributionMatrix = Matrix that is returned from MomentDistribution.m function. 
                  Input : Is InputData From Excel sheet.
 
-                              
+ **How To Enter Input Into Excel ???** 
+ 
+![Sample Input](https://user-images.githubusercontent.com/53304726/65835219-53170200-e301-11e9-9a18-b893710ea20e.PNG)
+                 
