@@ -5,7 +5,7 @@
 
 **Functions :**
 
-**ANALYSIS OF BEAMS.M ( All there is to know on how to run the program ): // ONLY FUNCTION REQUIRED TO GET THE OUTPUT**
+**1) ANALYSIS OF BEAMS.M ( All there is to know on how to run the program ): // ONLY FUNCTION REQUIRED TO GET THE OUTPUT**
 
 The AnalysisOfBeams function is just something like a CLUI of the final output, it does nothing more than call the appropriate function
 
@@ -44,7 +44,7 @@ The AnalysisOfBeams function is just something like a CLUI of the final output, 
                                      number ( From *11.842 ) in line 89 of MomentDistribution.m Function ONLY IF ACCEPTED ERROR > 0.1.
    
    
-**FixedEndMoment.m : ( Just to know how this function works and what it does !! ) :** 
+**2) FixedEndMoment.m : ( Just to know how this function works and what it does !! ) :** 
 
 The FixedEndMoment.m just calculates the FixedEndMoments after assuming all the supports as Fixed, IT HAS TO BE NOTED THAT END
 CORRECTION IS NOT INCLUDED IN THIS FUNCTION, RATHER IT IS INCLUDED IN MomentDistribution.m FUNCTION
@@ -53,7 +53,7 @@ CORRECTION IS NOT INCLUDED IN THIS FUNCTION, RATHER IT IS INCLUDED IN MomentDist
               Input, LeftSupport follow same nomenclature and method given in AnalysisOfBeams.m 
           
           
-**DistributionFactor.m : ( Just to know how this function works and what it does !! ) :** 
+**3) DistributionFactor.m : ( Just to know how this function works and what it does !! ) :** 
 
 The DistributionFactor.m just calculates the Distribution Factors after assuming all the 'Intermediate' supports as Fixed.
 
@@ -63,7 +63,7 @@ The DistributionFactor.m just calculates the Distribution Factors after assuming
               LeftSupport : Same Nomenclature as used in AnalysisOfBeams.m Function.
               
               
-**MomentDistribution.m : ( Just to know how this function works and what it does !! ) :**
+**4) MomentDistribution.m : ( Just to know how this function works and what it does !! ) :**
 
 The *MomentDistribution.m* just distributes the moments based on the distribution factor and applies end correction for discontinuous
 supports / left overhanging / right overhanging. 
@@ -82,7 +82,7 @@ Note: Seems To be a bit buggy when OverHanging On BOTH SIDES ( i.e "SIMULTANEOUS
                               1= If Used.
                               
                               
-**BMD.m :  ( Just to know how this function works and what it does !! ) :**
+**5) BMD.m :  ( Just to know how this function works and what it does !! ) :**
 
 This Function Plots The Bending Moment Diagram For Any Given CONTINUOUS SPAN BEAM , BMD for portal frames and rigid frames is not yet 
 supported.
@@ -94,7 +94,7 @@ supported.
                  Input : Is InputData From Excel sheet.
           
                               
-**FactorOfMultiplication.m :  ( Just to know how this function works and what it does !! ) :** 
+**6) FactorOfMultiplication.m :  ( Just to know how this function works and what it does !! ) :** 
 
 This Function just corrects the Assumed Moments in PURE SWAY ANALYSIS / GENERAL SWAY ANALYSIS OF PORTAL FRAME.
 
