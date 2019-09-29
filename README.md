@@ -23,16 +23,17 @@ The AnalysisOfBeams function is just something like a CLUI of the final output, 
            
         *TypeOfAnalysis= as the name suggests, what mode of analysis
            where,
-           0= Continuous Beam Analysis / Non Sway Type Analysis.
-           1= Pure Right Sway Analysis.
-          -1= Pure Left Sway Analysis.
-           2= General Sway Type Analysis.
+           0= Continuous Beam Analysis / Non Sway Type Analysis (Portal Frame).
+           1= Pure Right Sway Analysis.   (Portal Frame)
+          -1= Pure Left Sway Analysis.    (Portal Frame)
+           2= General Sway Type Analysis. (Portal Frame)
          NOTE: Rigid Frame Analysis Is Not Yet Supported.
          
          *VERY VERY IMPORTANT NOTE : In pure sway type analysis and general sway type analysis the accuracy depends on the magnitude of
                                      INITIAL assumed moments, so it is preferred that you chnage the Multiplication Factor to some other
                                      number ( From *11.842 ) in line 89 of MomentDistribution.m Function ONLY IF ACCEPTED ERROR > 0.1.
-                                     
+   
+   
 *FixedEndMoment.m* : ( Just to know how this function works ) :
 
 The FixedEndMoment.m just calculates the FixedEndMoments after assuming all the supports as Fixed, IT HAS TO BE NOTED THAT END
@@ -40,13 +41,17 @@ CORRECTION IS NOT INCLUDED IN THIS FUNCTION, RATHER IT IS INCLUDED IN MomentDist
 
      Syntax : FixedEndMoment (Input,LeftSupport)
               Input, LeftSupport follow same nomenclature and method given in AnalysisOfBeams.m 
+          
+          
+*DistributionFactor.m* : ( Just to know how this function works ) :              
               
+The DistributionFactor.m just calculates the Distribution Factors after assuming all the 'Intermediate' supports as Fixed.
+
+     Syntax : DistributionFactor (Input , LeftSupport)
+              where parameteres,
+              Input : Is InputData From Excel sheet.
+              LeftSupport : Same Nomenclature as used in AnalysisOfBeams.m Function.
               
-              
-              
-              
-              
-                 
               
 *MomentDistribution.m* :  ( Just to know how this function works ) :
 
@@ -55,7 +60,7 @@ supports / left overhanging / right overhanging.
 Note: Seems To be a bit buggy when OverHanging On BOTH SIDES ( i.e "SIMULTANEOUSLY" ), will fix it in the next update.
 
      Syntax : MomentDistribution (InputMatrix, FixedEndMomentMatrix, DistributionFactorMatrix , LeftSupport , IsPureSway)
-                 where,
+                 where parameters,
                  InputMatrix : Is InputData From Excel sheet.
                  FixedEndMomentMatrix : Matrix that is returned from FixedEndMoment.m function.
                  DistributionFactorMatrix : Matrix that is returned from DistributionFactor.m function.
@@ -67,6 +72,17 @@ Note: Seems To be a bit buggy when OverHanging On BOTH SIDES ( i.e "SIMULTANEOUS
                               1= If Used.
                               
                               
+*BMD.m* :  ( Just to know how this function works ) :
+
+This Function Plots The Bending Moment Diagram For Any Given CONTINUOUS SPAN BEAM , BMD for portal frames and rigid frames is not yet 
+supported.
+
+     Syntax : BMD ( MomentDistributionMatrix , SpanMatrix ,Input)
+                 where parameters,
+                 MomentDistributionMatrix = Matrix that is returned from MomentDistribution.m function. 
+                 SpanMatrix= Row Matrix of 'increasing span distance'.
+                 Input : Is InputData From Excel sheet.
+          
                               
                               
                               
