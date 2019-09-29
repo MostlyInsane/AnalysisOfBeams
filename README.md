@@ -1,3 +1,7 @@
+**DOCUMENTATION OF ANALYSIS OF BEAMS USING MDM : (MATLAB/OCTAVE)**
+
+Author : Nikhil Dandamudi.
+
 **ANALYSIS OF BEAMS.M ( All there is to know on how to run the program ): // ONLY FUNCTION REQUIRED TO GET THE OUTPUT**
 
 The AnalysisOfBeams function is just something like a CLUI of the final output, it does nothing more than call the appropriate function
@@ -7,6 +11,9 @@ The AnalysisOfBeams function is just something like a CLUI of the final output, 
         *INPUT= 
            Direct Input : Where, Input is provided from an excel sheet with respective coloumns with their properties, and rows grow as
                           number of spans increase. ( Preffered Units : KN and M )
+                          
+                          Important Note : Input is read using xlsread('//path')
+                                             Example : xlsread('C:\Users\MONSTERRRRR PC!!!!\Desktop\MDM\Input.xlsx').
                           
                           Important Note : NOT REQUIRED TO MENTION THE SIGN OR ANYTHING JUST MENTION THE MAGNITUDE OF SINKING (same units)
                           
